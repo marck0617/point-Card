@@ -5,14 +5,121 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ポイントカード</title>
+
+  <style>
+    /* ページ全体 */
+    body {
+      font-family: sans-serif;
+      background-color: #f5f1eb;
+      padding: 20px;
+    }
+
+    /* ポイントカード */
+    .card {
+      background-color: white;
+      border-radius: 20px;
+      padding: 25px;
+      max-width: 400px;
+      margin: 30px auto;
+      text-align: center;
+      box-shadow: 0 4px 15px #00000015;
+    }
+
+    /* スタンプを並べる */
+    .stamp-area {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin: 25px 0;
+    }
+
+    /* スタンプ */
+    .stamp {
+      background-color: #eee8df;
+      color: #cbbda9;
+      border-radius: 50%;
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 25px;
+    }
+
+    /* 獲得済みスタンプ */
+    .stamp.active {
+      background-color: #b58b52;
+      color: white;
+    }
+
+    /* ボタン */
+    button {
+      background-color: #b58b52;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 15px;
+      width: 100%;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
 </head>
+
 <body>
 
-  <h1>SHOP ポイントカード</h1>
+  <div class="card">
+    <h1>SHOP POINT CARD</h1>
 
-  <p id="pointDisplay">現在のポイント：0</p>
+    <p>10ポイントで特典プレゼント！</p>
 
-  <button id="addButton">ポイントを貯める</button>
+    <div id="stampArea" class="stamp-area"></div>
+
+    <p id="pointDisplay">現在のポイント：0</p>
+
+    <button id="addButton">ポイントを貯める</button>
+  </div>
+
+  <script>
+    let points = 0;
+
+    const display = document.getElementById("pointDisplay");
+    const button = document.getElementById("addButton");
+    const stampArea = document.getElementById("stampArea");
+
+    // スタンプを表示する関数
+    function updateStamps() {
+      stampArea.innerHTML = "";
+
+      for (let i = 0; i < 10; i++) {
+        const stamp = document.createElement("div");
+
+        stamp.classList.add("stamp");
+        stamp.textContent = "★";
+
+        if (i < points) {
+          stamp.classList.add("active");
+        }
+
+        stampArea.appendChild(stamp);
+      }
+
+      display.textContent = "現在のポイント：" + points;
+    }
+
+    // ボタンを押したとき
+    button.addEventListener("click", function() {
+      if (points >= 10) {
+        alert("10ポイント達成！おめでとう！");
+        return;
+      }
+
+      points = points + 1;
+      updateStamps();
+    });
+
+    // 最初の画面を表示
+    updateStamps();
+  </script>
 
 </body>
 </html>
